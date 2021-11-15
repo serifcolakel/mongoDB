@@ -38,9 +38,9 @@ async function getCourses() {
     name: "NodeJs",
     isPublished: true,
   })
-    .limit(10) //
+    .limit(10) // limiti 10 olarak ayarladık
     .sort({ name: 1 }) // 1 olursa name'e göre artan sıralama, -1 olursa name'e göre  azalan sıralama
-    .select({ name: 2, tags: 1 }); //
+    .count(); // count methodu ile filtreleme ile eşleşen verilerin sayısını döndürür
   console.log(courses);
 }
 

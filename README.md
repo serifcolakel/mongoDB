@@ -66,9 +66,9 @@ async function getCourses() {
       name: "NodeJs",
       isPublished: true,
     })
-      .limit(10) //
+      .limit(10) // limiti 10 olarak ayarladık
       .sort({ name: 1 }) // 1 olursa name'e göre artan sıralama, -1 olursa name'e göre  azalan sıralama
-      .select({ name: 2, tags: 1 }); //
+      .select({ name: 2, tags: 1 }); // sadece name ve tags alacak
     console.log(courses);
   }
   
@@ -135,3 +135,19 @@ getPrice();
   const regularExpression = await Course.find({ author: /.*Serif.*/i });// Serif içerenleri  getirir.
 ```  
 
+### Counting (Sayma)
+```javascript
+async function getCourses() {
+  const courses = await Course.find({
+    author: "Serif",
+    name: "NodeJs",
+    isPublished: true,
+  })
+    .limit(10) // limiti 10 olarak ayarladık
+    .sort({ name: 1 }) // 1 olursa name'e göre artan sıralama, -1 olursa name'e göre  azalan sıralama
+    .count(); // count methodu ile filtreleme ile eşleşen verilerin sayısını döndürür
+  console.log(courses);
+}
+
+getCourses();
+```
