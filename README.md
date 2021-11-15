@@ -108,3 +108,20 @@ const findGtPrice = await Course.find({ price: { $gt: 10 } }); // 10(dahil deği
 
 getPrice();
 ```
+
+### Logical Query Operators 
+>* or (veya) : şartlardan birinin geçerli olması yeterli
+>* and (ve) : şartlardan hepsinin geçerli olması gerekir 
+```javascript 
+
+ 
+  const orLogicalOperator = await Course.find().or([
+    { author: "Serif" },
+    { isPublished: true },
+  ]); // or ile find'ı geçtik ve içerisine girilen nesnelere göre sorgu yapılır ve herhangi biri nesne ile eşleşen değer/değerler getirilir.
+  const andLogicalOperator = await Course.find().and([
+    { author: "Serif" },
+    { isPublished: true },
+  ]); // and ile find'ı geçtik ve içerisine girilen nesnelere göre sorgu yapılır ve tüm nesneler ile eşleşen değerler getirilir.
+
+```
