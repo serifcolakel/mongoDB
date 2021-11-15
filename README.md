@@ -125,3 +125,13 @@ getPrice();
   ]); // and ile find'ı geçtik ve içerisine girilen nesnelere göre sorgu yapılır ve tüm nesneler ile eşleşen değerler getirilir.
 
 ```
+
+### Regular Expression
+* Küçük Büyük harf duyarlılığı i ile belirlenir var ise duyarsızdır yoksa duyarlıdır.
+```javascript
+  const regularExpression = await Course.find({ author: /^Serif/ }); // Serif ile Baslayan Kursları Getir
+  const regularExpression = await Course.find({ author: /Colakel$/ }); // Serif ile Biten Kursları Getir
+  const regularExpression = await Course.find({ author: /Colakel$/i }); // i eklenirse kucuk/buyuk harfe karsı duyarsızlasır
+  const regularExpression = await Course.find({ author: /.*Serif.*/i });// Serif içerenleri  getirir.
+```  
+

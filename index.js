@@ -33,20 +33,6 @@ async function createCourse() {
 
 //Query Methods : find, findOne, findById, findOneAndUpdate, findByIdAndUpdate, findOneAndRemove, findByIdAndRemove
 async function getCourses() {
-  // Logical operators
-  // or
-  // and
-  // nor
-
-  const orLogicalOperator = await Course.find().or([
-    { author: "Serif" },
-    { isPublished: true },
-  ]); // or ile find'ı geçtik ve içerisine girilen nesnelere göre sorgu yapılır ve herhangi biri nesne ile eşleşen değer/değerler getirilir.
-  const andLogicalOperator = await Course.find().and([
-    { author: "Serif" },
-    { isPublished: true },
-  ]); // and ile find'ı geçtik ve içerisine girilen nesnelere göre sorgu yapılır ve tüm nesneler ile eşleşen değerler getirilir.
-
   const courses = await Course.find({
     author: "Serif",
     name: "NodeJs",
