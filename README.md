@@ -54,3 +54,24 @@ async function createCourse() {
 createCourse();
 
 ```
+
+### Query( Sorgu )
+
+* Query Methods : find, findOne, findById findOneAndUpdate, findByIdAndUpdate, findOneAndRemove, findByIdAndRemove metodları kullanılır.
+```javascript
+
+async function getCourses() {
+    const courses = await Course.find({
+      author: "Serif",
+      name: "NodeJs",
+      isPublished: true,
+    })
+      .limit(10) //
+      .sort({ name: 1 }) // 1 olursa name'e göre artan sıralama, -1 olursa name'e göre  azalan sıralama
+      .select({ name: 2, tags: 1 }); //
+    console.log(courses);
+  }
+  
+  getCourses();
+
+```
