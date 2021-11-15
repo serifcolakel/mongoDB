@@ -65,3 +65,12 @@ async function updateCourse(id) {
 }
 
 updateCourse("6192a5c018f4182360034729");
+
+async function removeCourse(id) {
+  // const result = await Course.deleteOne({ _id: id }); // ilkini bulup silecek
+  // const result = await Course.deleteMany({ _id: id }); // birden fazla siler
+  const course = await Course.findByIdAndRemove(id); // yada id'yi bulup silebiliriz
+  console.log("remove State:", course);
+}
+
+removeCourse("asd");

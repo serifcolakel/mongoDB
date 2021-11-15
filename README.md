@@ -203,7 +203,7 @@ async function updateCourse(id) {
   console.log(result);
 }
 
-updateCourse("6192a5c018f4182360034729");
+updateCourse("_id");
 
 ```
 * Ornek-2
@@ -222,7 +222,7 @@ async function updateCourse(id) {
   console.log(result);
 }
 
-updateCourse("6192a5c018f4182360034729");
+updateCourse("_id");
 
 ```
 * Ornek-3
@@ -242,6 +242,21 @@ async function updateCourse(id) {
   console.log(course);
 }
 
-updateCourse("6192a5c018f4182360034729");
+updateCourse("_id");
+
+```
+
+### Removing Documents
+
+```javascript
+
+async function removeCourse(id) {
+  // const result = await Course.deleteOne({ _id: id }); // ilkini bulup silecek
+  // const result = await Course.deleteMany({ _id: id }); // birden fazla siler
+  const course = await Course.findByIdAndRemove(id); // yada id'yi bulup silebiliriz
+  console.log("remove State:", course);
+}
+
+removeCourse("_id");
 
 ```
