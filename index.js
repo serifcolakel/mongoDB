@@ -33,14 +33,18 @@ async function createCourse() {
 
 //Query Methods : find, findOne, findById, findOneAndUpdate, findByIdAndUpdate, findOneAndRemove, findByIdAndRemove
 async function getCourses() {
+  // Pagination
+  const pageNumber = 2;
+  const pageSize = 10;
   const courses = await Course.find({
     author: "Serif",
     name: "NodeJs",
     isPublished: true,
   })
-    .limit(10) // limiti 10 olarak ayarladık
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageSize)
     .sort({ name: 1 }) // 1 olursa name'e göre artan sıralama, -1 olursa name'e göre  azalan sıralama
-    .count(); // count methodu ile filtreleme ile eşleşen verilerin sayısını döndürür
+    .select({ name: 1, tags: 1 });
   console.log(courses);
 }
 

@@ -151,3 +151,28 @@ async function getCourses() {
 
 getCourses();
 ```
+### Pagination (Sayfalandırma)
+
+* `Gerçekte sorgu böyle olmalı : https:/www.xxx.com/api/endpoint?pageNumber=2&pageSize=10`
+
+```javascript
+async function getCourses() {
+  // Pagination
+  const pageNumber = 2;
+  const pageSize = 10;
+  const courses = await Course.find({
+    author: "Serif",
+    name: "NodeJs",
+    isPublished: true,
+  })
+    .skip((pageNumber - 1) * pageSize) // (pageNumber - 1) * pageSize ile berlirli sayfada veriler alınır
+    .limit(pageSize) // limit pageSize
+    .sort({ name: 1 }) 
+    .select({ name: 1, tags: 1 });
+  console.log(courses);
+}
+
+getCourses();
+
+```
+
