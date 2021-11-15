@@ -49,3 +49,19 @@ async function getCourses() {
 }
 
 getCourses();
+
+async function updateCourse(id) {
+  const course = await Course.findByIdAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        author: "SerifColake55",
+        isPublished: false,
+      },
+    },
+    { new: true } // güncellenmiş belgeyi almak için kullanılır false olursa güncellenmemiş belgeyi alır
+  );
+  console.log(course);
+}
+
+updateCourse("6192a5c018f4182360034729");

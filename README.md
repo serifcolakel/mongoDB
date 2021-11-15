@@ -176,3 +176,72 @@ getCourses();
 
 ```
 
+### Updating a Document 
+>* https://docs.mongodb.com/manual/reference/operator/update/
+>* ilk olarak id'ye göre sorgu yapılır sonrasında düzenlenir ve save ile kaydedilir.  
+
+* Ornek-1
+```javascript
+
+async function updateCourse(id) {
+  // Approach 1 :
+  // Query first
+  // findById()
+  // Modify its properties
+  // save()
+  const course = await Course.findById(id);
+  if (!course) return;
+
+  course.isPublished = true;
+  course.author = "Another Author";
+  //  yada
+  //   course.set({
+  //     isPublished: true,
+  //     author: "Another Author",
+  //   })
+  const result = await course.save();
+  console.log(result);
+}
+
+updateCourse("6192a5c018f4182360034729");
+
+```
+* Ornek-2
+```javascript
+
+async function updateCourse(id) {
+  const result = await Course.update(
+    { _id: id },
+    {
+      $set: {
+        author: "SerifColakel",
+        isPublished: false,
+      },
+    }
+  );
+  console.log(result);
+}
+
+updateCourse("6192a5c018f4182360034729");
+
+```
+* Ornek-3
+```javascript
+
+async function updateCourse(id) {
+  const course = await Course.findByIdAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        author: "SerifColake55",
+        isPublished: false,
+      },
+    },
+    { new: true } // güncellenmiş belgeyi almak için kullanılır false olursa güncellenmemiş belgeyi alır
+  );
+  console.log(course);
+}
+
+updateCourse("6192a5c018f4182360034729");
+
+```
