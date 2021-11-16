@@ -18,6 +18,8 @@ const coursesSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: ["web", "mobile", "network"], // web, mobile, network olmalı yoska hata alırız
+    lowercase: true, // girilen değeri direkt olarak küçük harfe çevirir
+    trim: true, // boşlukları siler
   },
   author: String, // türü string
   tags: {
@@ -39,11 +41,13 @@ const coursesSchema = new mongoose.Schema({
   isPublished: Boolean,
   price: {
     type: Number,
-    min: 10, // price değerinin maximum alacağı değer
-    max: 2000, // price değerinin minimum alacağı değer
     required: function () {
       return this.isPublished;
     },
+    min: 10, // price değerinin maximum alacağı değer
+    max: 2000, // price değerinin minimum alacağı değer
+    get: (v) => Math.round(v), // getter ile alınan değeri yuvarlar
+    set: (v) => Math.round(v), // setter ile gönderilen değeri yuvarlar
   },
 });
 
@@ -53,18 +57,20 @@ const Course = mongoose.model("Course", coursesSchema);
 async function createCourse() {
   const course = new Course({
     name: "ReactJS Course",
-    category: "-",
-    author: "Serif",
-    tags: [],
+    category: "Web    ",
+    author: "Serif1",
+    tags: ["frontend"],
     date: new Date(),
+    price: 20,
     isPublished: true,
   });
   try {
-    const isValid = await course.validate((err) => {
-      console.log(err);
-    });
-    // const result = await course.save();
-    // console.log(result);
+    // Hataların tamamını ve path yollarını göstermek için kullanılabilir.
+    // const isValid = await course.validate((err) => {
+    //   console.log(err);
+    // });
+    const result = await course.save();
+    console.log(result);
   } catch (ex) {
     // console.log(ex.message); // tek bir hata için
     for (field in ex.errors) {
