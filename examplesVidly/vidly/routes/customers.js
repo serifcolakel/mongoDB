@@ -28,7 +28,7 @@ router.put("/:id", async (req, res) => {
 
   const customer = await Customer.findByIdAndUpdate(
     req.params.id,
-    { name: req.body.name },
+    { name: req.body.name, isVIP: req.body.isVIP, phone: req.body.phone },
     { new: true }
   );
 
