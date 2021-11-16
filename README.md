@@ -260,3 +260,68 @@ async function removeCourse(id) {
 removeCourse("_id");
 
 ```
+
+### Validate 
+
+```javascript
+// Schema Types : String, Number, Date, Buffer, Boolean, Mixed, Objectid, Array
+const coursesSchema = new mongoose.Schema({
+  name: {
+    type: String, // türü string olmalı
+    required: true, // gerekli
+    minlength: 10, // name min 10 karakter olmalı
+    maxlength: 20, // name max uzunlugu 20 olabilir
+    // match: /pattern/i, // match formatında olmalı name
+  }, // required: true, bu alanın girilmesi zorunlu olur
+  category: {
+    type: String,
+    required: true,
+    enum: ["web", "mobile", "network"], // web, mobile, network olmalı yoska hata alırız
+  },
+  author: String, // türü string
+  tags: { // tags özellikleri belirlendi
+    type: Array,
+    validate: {
+      validator: function (v) { // dizinin boş olması null olması durumları için geçerli olacak
+        return v && v.length > 0;
+      },
+      message: "A course should have at least one tag",
+    },
+  },
+  date: { type: Date, default: Date.now },
+  isPublished: Boolean,
+  price: {
+    type: Number,
+    min: 10, // price değerinin maximum alacağı değer
+    max: 2000, // price değerinin minimum alacağı değer
+    required: function () {
+      return this.isPublished;
+    },
+  },
+});
+
+// Course sınıfı içinde NodeJs objesi oluşturacaz model ile
+const Course = mongoose.model("Course", coursesSchema);
+
+async function createCourse() {
+  const course = new Course({
+    name: "ReactJS Course",
+    category: "-",
+    author: "Serif",
+    tags: [],
+    date: new Date(),
+    isPublished: true,
+  });
+  try {
+    const isValid = await course.validate((err) => {
+      console.log(err);
+    });
+    // const result = await course.save();
+    // console.log(result);
+  } catch (ex) {
+    console.log(ex.message);
+  }
+}
+createCourse();
+
+```

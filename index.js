@@ -7,11 +7,44 @@ mongoose
 
 // Schema Types : String, Number, Date, Buffer, Boolean, Mixed, Objectid, Array
 const coursesSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String, // türü string olmalı
+    required: true, // gerekli
+    minlength: 10, // name min 10 karakter olmalı
+    maxlength: 20, // name max uzunlugu 20 olabilir
+    // match: /pattern/i, // match formatında olmalı name
+  }, // required: true, bu alanın girilmesi zorunlu olur
+  category: {
+    type: String,
+    required: true,
+    enum: ["web", "mobile", "network"], // web, mobile, network olmalı yoska hata alırız
+  },
   author: String, // türü string
-  tags: [String], // Array of strings
+  tags: {
+    type: Array,
+    validate: {
+      isAsync: true,
+      validator: function (v, callback) {
+        setTimeout(() => {
+          // Do some async work
+          const result = v && v.length > 0;
+          callback(result);
+        }, 4000);
+        // return v && v.length > 0; // callback olmadan
+      },
+      message: "A course should have at least one tag",
+    },
+  },
   date: { type: Date, default: Date.now },
   isPublished: Boolean,
+  price: {
+    type: Number,
+    min: 10, // price değerinin maximum alacağı değer
+    max: 2000, // price değerinin minimum alacağı değer
+    required: function () {
+      return this.isPublished;
+    },
+  },
 });
 
 // Course sınıfı içinde NodeJs objesi oluşturacaz model ile
@@ -20,16 +53,26 @@ const Course = mongoose.model("Course", coursesSchema);
 async function createCourse() {
   const course = new Course({
     name: "ReactJS Course",
+    category: "-",
     author: "Serif",
-    tags: ["react", "front-end"],
+    tags: [],
     date: new Date(),
     isPublished: true,
   });
-  const result = await course.save();
-  console.log(result);
+  try {
+    const isValid = await course.validate((err) => {
+      console.log(err);
+    });
+    // const result = await course.save();
+    // console.log(result);
+  } catch (ex) {
+    // console.log(ex.message); // tek bir hata için
+    for (field in ex.errors) {
+      console.log(ex.errors[field].message);
+    }
+  }
 }
-
-// createCourse();
+createCourse();
 
 //Query Methods : find, findOne, findById, findOneAndUpdate, findByIdAndUpdate, findOneAndRemove, findByIdAndRemove
 async function getCourses() {
@@ -48,7 +91,7 @@ async function getCourses() {
   console.log(courses);
 }
 
-getCourses();
+//getCourses();
 
 async function updateCourse(id) {
   const course = await Course.findByIdAndUpdate(
@@ -64,7 +107,7 @@ async function updateCourse(id) {
   console.log(course);
 }
 
-updateCourse("6192a5c018f4182360034729");
+//updateCourse("6192a5c018f4182360034729");
 
 async function removeCourse(id) {
   // const result = await Course.deleteOne({ _id: id }); // ilkini bulup silecek
@@ -73,4 +116,4 @@ async function removeCourse(id) {
   console.log("remove State:", course);
 }
 
-removeCourse("asd");
+// removeCourse("asd");
