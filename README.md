@@ -325,3 +325,50 @@ async function createCourse() {
 createCourse();
 
 ```
+
+
+### Modelling Relationships
+>* 3 Yakşalımda da herhangi bir doğru yanlış söz konusu değil.Fakat Yapılabilecek uygulamara göre 3 yaklaşımdan uygun olanı seçilebilir.
+
+```javascript
+//  Approach 1 - Using References (normalization) -> sonuç olarak CONSISTENCY verir
+let author = {
+  name: "Mosh"
+}
+let course = {
+  author: "id"
+}
+
+// Approach 2 - Using Embedded Documents (Denormalization) -> sonuç olarak PERFOMANCE verir 
+let course = {
+  author: {
+    name:"Mosh"
+  }
+}
+
+// Approach 3 - Hybrid 
+let author = {
+  name: "Mosh"
+  // 50 other props
+}
+
+let course = {
+  author: {
+    id:"ref",
+    name:"Mosh"
+  }
+}
+
+```
+>* Query Performansları ile tutarlılık(consistency) arasında takas yapılmalı
+
+
+
+
+
+
+
+
+
+
+
