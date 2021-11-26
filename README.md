@@ -402,6 +402,23 @@ updateAuthor("61a084ef661b552da444b7ea");
 
 ```
 
+### Using an Array of Sub-Documents
+>* Tanımlanacak olan propslar dizi olarak tanımlanır ve her bir eleman obje olarak eklenir/silinir/düzeltilir
+```javascript
+async function addAuthor(courseId, author) {
+  const course = await Course.findById(courseId);
+  course.authors.push(author);
+  course.save();
+}
+addAuthor("61a08ab49eca030d8cc1febc", new Author({ name: "M.F COLAKEL" }));
+async function removeAuthor(courseId, authorId) {
+  const course = await Course.findById(courseId);
+  const author = course.authors.id(authorId);
+  author.remove();
+  course.save();
+}
+removeAuthor("61a08ab49eca030d8cc1febc", "61a08b89a8ddab48d078aa49");
+```
 
 
 
