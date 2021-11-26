@@ -420,6 +420,29 @@ async function removeAuthor(courseId, authorId) {
 removeAuthor("61a08ab49eca030d8cc1febc", "61a08b89a8ddab48d078aa49");
 ```
 
+### MongoDB ObjectID'nin Aciklanmasi
+
+>* _id: 60a7db50b9defe34041a2cd8 elimizde örnek mongoDB objectID
+
+* 12 byte'tan oluşur
+>* 4 bytes : timestamp
+>* 3 bytes : machine identifier
+>* 2 bytes : process indetifier
+>* 3 bytes : counter
+
+#### **Benzersiz bir id üretme Mongo Driver'ı tarafindan hafizadan**
+
+```javascript
+const mongoose = require("mongoose");
+
+const id = new mongoose.Types.ObjectId();
+console.log(id);
+console.log(id.getTimestamp());
+// ObjectId geçerli olup olmadığının kontrolü ise aşağıdaki gibi denetlenir.
+const isValid = mongoose.Types.ObjectId("Xxx");
+console.log(isValid);
+
+```
 
 
 
