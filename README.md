@@ -438,10 +438,19 @@ const mongoose = require("mongoose");
 const id = new mongoose.Types.ObjectId();
 console.log(id);
 console.log(id.getTimestamp());
-// ObjectId geçerli olup olmadığının kontrolü ise aşağıdaki gibi denetlenir.
+// ObjectId'nin geçerli olup olmadığının kontrolü ise aşağıdaki gibi denetlenir.
 const isValid = mongoose.Types.ObjectId("Xxx");
 console.log(isValid);
 
+```
+
+### Joi-objectId
+* npm i joi-objectid
+* Aşağıdaki kodu kullanmak yerine joi-objectid kullanılanilir.
+```javascript
+// ObjectId Doğrulanması(Validation)
+  if (!mongoose.Types.ObjectId.isValid(req.body.customerId) === false)
+    return res.status(400).send("Invalid customer id");
 ```
 
 
