@@ -362,6 +362,20 @@ let course = {
 ```
 >* Query Performansları ile tutarlılık(consistency) arasında takas yapılmalı
 
+### populate kullanimi
+>* ilk argüman path'i, ikinci argüman ise dahil/hariç etmek istenilen özelliği 
+```javascript
+// aşadğıki kodda ise name dahil iken _id hariç olarak belirtildi.
+  const courses = await Course.find()
+    .populate("author", "name -_id")
+    .select("name author");
+// burada ise author > category içindeki tüm categorylere erişim söz konusu 
+  const courses = await Course.find()
+    .populate("author", "name -_id")
+    .populate("category", "name") // yalnızca name props getir.
+    .select("name author");
+
+```
 
 
 
