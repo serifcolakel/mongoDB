@@ -1,3 +1,5 @@
+const config = require("config");
+const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
@@ -8,7 +10,7 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
-  console.log(error);
+  // console.log(error);
   if (error) return res.status(400).send(error.details[0].message);
 
   let user = await User.findOne({ email: req.body.email });
@@ -17,12 +19,13 @@ router.post("/", async (req, res) => {
 
   // req.body.password ile user.password'u karşılaştıracak
   const validPassword = await bcrypt.compare(req.body.password, user.password);
-  console.log("body-password:", req.body.password);
-  console.log("user-password:", user.password);
-  console.log("compare result:", validPassword);
+  // console.log("body-password:", req.body.password);
+  // console.log("user-password:", user.password);
+  // console.log("compare result:", validPassword);
   if (!validPassword) return res.status(400).send("Invalid email or password.");
-
-  res.send(true);
+  // PowerShell'de $env:vidly_jwtPrivateKey="keygir" ile öncesinde env veriables set edilmelidir.
+  const token = jwt.sign({ _id: user._id }, config.get("jwtPrivateKey"));
+  res.send(token);
 });
 
 function validate(req) {
