@@ -1,3 +1,4 @@
+const auth = require("../middleware/auth");
 const { Genre, validate } = require("../models/genre");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -8,7 +9,8 @@ router.get("/", async (req, res) => {
   res.send(genres);
 });
 
-router.post("/", async (req, res) => {
+// post'ta ilk argüman rota, ikinci arguman middleware fonksiyonu, 3. actual route handler fonksiyonu
+router.post("/", auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
