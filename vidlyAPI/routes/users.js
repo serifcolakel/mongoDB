@@ -24,8 +24,12 @@ router.post("/", async (req, res) => {
 
   await user.save();
   // pick ile user nesnesinde seçilmek istenen ozellikleri alabiliyoruz
-
-  res.send(_.pick(user, ["_id", "name", "email"]));
+  //tokeni header olarak gönderiyoruz
+  const token = user.generateAuthToken();
+  res
+    .header("x-auth-token", token)
+    .send(_.pick(user, ["_id", "name", "email"]));
+  //res.send(_.pick(user, ["_id", "name", "email"]));
 });
 
 module.exports = router;

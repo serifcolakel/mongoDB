@@ -1,5 +1,3 @@
-const config = require("config");
-const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
@@ -24,9 +22,11 @@ router.post("/", async (req, res) => {
   // console.log("compare result:", validPassword);
   if (!validPassword) return res.status(400).send("Invalid email or password.");
   // PowerShell'de $env:vidly_jwtPrivateKey="keygir" ile öncesinde env veriables set edilmelidir.
-  const token = jwt.sign({ _id: user._id }, config.get("jwtPrivateKey"));
+  const token = user.generateAuthToken();
   res.send(token);
 });
+
+// Information Expert Principle
 
 function validate(req) {
   const schema = {
